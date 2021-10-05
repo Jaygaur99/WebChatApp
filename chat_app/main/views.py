@@ -11,4 +11,7 @@ def home(request):
         'email_id' : e_id,
         'password' : password,
     }
-    return render(request,'home.html',data)
+    if request.method == 'POST' and e_id and password:
+        return render(request,'home.html',data)
+    else:
+        return render(request,'login.html')
