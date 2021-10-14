@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 def login(request):
-    return render(request,'login.html')
+    return render(request,'main/login.html')
 
 def home(request):
     if request.method == 'POST':
@@ -13,8 +13,8 @@ def home(request):
             'password' : password,
         }
         if e_id and password:
-            return render(request,'home.html',data)
+            return render(request,'main/home.html',data)
         else:
-            return render(request,'login.html')
+            return render(request,'main/login.html')
     else:
-        return render(request,'login.html')
+        return render(request,'main/login.html')
