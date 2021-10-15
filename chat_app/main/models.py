@@ -4,14 +4,6 @@ from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import BaseUserManager
 
-<<<<<<< HEAD
-# Create your models here.
-class signup(models.Model):
-    user_name = models.CharField(max_length=100)
-    email = models.EmailField(max_length=100)
-    pass1 = models.models.CharField(max_length=100)
-    pass2 = models.models.CharField(max_length=100)
-=======
 class UserProfileManager(BaseUserManager):
     """Manager for user profiles"""
 
@@ -30,6 +22,7 @@ class UserProfileManager(BaseUserManager):
         """Creates a new superuser with given details"""
         user = self.create_user(email, fname, lname, dob, password)
         user.is_superuser = True
+
         user.is_staff = True
         user.save(using=self._db)
         return user
@@ -68,4 +61,3 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         """Return string representation of our user"""
         return self.email
->>>>>>> 8e7e41fe49bff0be78752f624c1b29a31957ba8d

@@ -1,7 +1,9 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
-
+from django.contrib.messages.api import warning
+from django.forms import widgets
+from .models import *
 User = get_user_model()
 
 class RegisterForm(forms.ModelForm):
@@ -10,7 +12,21 @@ class RegisterForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['email', 'fname', 'lname', 'dob']
+        fields = ['fname', 'lname','dob', 'email','password','password_2']
+        widgets = {
+                'fname' : forms.TextInput(attrs={'type' : "text", "class" : "form-control" 
+                ,"aria-describedby" : "fname", "placeholder" : "First Name " ,"name" :"fname"}),
+                'lname' : forms.TextInput(attrs={'type' : "text", "class" : "form-control" 
+                ,"aria-describedby" : "lname", "placeholder" : "Last Name" ,"name" :"lname"}),
+                'email' : forms.TextInput(attrs={'type' : "email", "class" : "form-control" 
+                ,"aria-describedby" : "email", "placeholder" : "Enter email" ,"name" :"email"}),
+                'password': forms.PasswordInput(attrs={'type' : "password", "class" : "form-control" 
+                ,"aria-describedby" : "password", "placeholder" : "password" ,"name" :"password"}),
+                'password_2': forms.PasswordInput(attrs={'type' : "password", "class" : "form-control" 
+                ,"aria-describedby" : "password_2", "placeholder" : "password" ,"name" :"password-2"}),
+                'dob' : forms.DateInput(attrs={'type' : "date", "class" : "form-control", 'required pattern' : "\d{4}-\d{2}-\d{2}" 
+                ,"aria-describedby" : "dob", "placeholder" : "yyyy-mm-dd" ,"name" :"dob" ,'min':'1959-01-01'})
+        }
     
     def clean_email(self):
         """
