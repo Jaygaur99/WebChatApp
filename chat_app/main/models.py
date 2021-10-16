@@ -36,6 +36,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     dob = models.DateField()
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    otp = models.IntegerField(blank=True, null=True)
 
     objects = UserProfileManager()
 
