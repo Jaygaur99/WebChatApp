@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}
+    Change My Password
+{% endblock title %}
+
+{% block body %}
+    <div class="d-flex justify-content-center">
+        <form action="{% url "verify_otp" %}" method="post">
+            {% if error %}
+                <p>{{ error }}</p>
+            {% endif %}
+            {% csrf_token %}
+            <label for="my_otp">Enter 6 digit OTP send to your email. <br>
+            Note: Check spam if not received.</label>
+            <input id="my_otp" type="number" name="my_otp">
+            <input type="hidden" name='email' value={{ email }}>
+            <input type="submit" value='Submit'>
+        </form>
+    </div>
+{% endblock body %}

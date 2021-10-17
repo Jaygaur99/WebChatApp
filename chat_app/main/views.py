@@ -1,31 +1,39 @@
 from django.shortcuts import render, HttpResponse, redirect
-from django.contrib import auth, messages 
+from django.contrib import messages 
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User 
 from .forms import *
+<<<<<<< HEAD
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
+=======
+from django.conf import settings
+from django.core.mail import EmailMessage
+import random
+from .helpers import *
+
+>>>>>>> c7dc79fb6d93279b07a89831e06be721b960fd8e
 # Create your views here.
-def login(request):
+def login_page(request):
     return render(request,'main/login.html')
 
 def loginauth(request):
     if request.method == 'POST':
-        e_id = request.POST['Email_ID']
-        password = request.POST['Password']
-
-        user = auth.authenticate(email=e_id, password = password)
-
-        if user is None:
-            auth.login(request,user)
-            return render(request,'main/home.html')
+        e_id = request.POST.get('email')
+        password = request.POST.get('password')
+        user = authenticate(request, username=e_id, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('home')
         else:
             messages.info(request,'Invalid Credentials')
-            return render(request,'main/login.html')
+            return redirect('login')
     else:
-        return render(request,'main/login.html')
+        return redirect('login')
 
-def welcome(request):
+def home(request):
     return render(request,'main/home.html')
 
 def signup(request):
@@ -33,7 +41,7 @@ def signup(request):
     para = {
         'form':form
     }
-    return render(request,'main/form.html',context=para)
+    return render(request, 'main/form.html', context=para)
 
 def signhandle(request):
     if request.method == "POST":
@@ -45,6 +53,7 @@ def signhandle(request):
         pass2 = request.POST['password_2']
         dob = request.POST['dob']
 
+<<<<<<< HEAD
 
         if (pass1!= pass2):
              messages.error(request, " Passwords do not match")
@@ -52,8 +61,64 @@ def signhandle(request):
         
         # Create the user
         myuser = User.objects.create_user(email=email, fname=fname, lname=lname, dob=dob, password=pass1)
+=======
+        if (pass1!= pass2):
+             messages.error(request, " Passwords do not match")
+             return redirect('signup')
+        myuser = User.objects.create_user(email=email, fname=fname, lname=lname, dob=dob, password=pass1)
+        myuser.first_name = fname
+        myuser.last_name = lname
+>>>>>>> c7dc79fb6d93279b07a89831e06be721b960fd8e
         myuser.save()
         messages.success(request, " account has been successfully created")
         return redirect('login')
     else:
+<<<<<<< HEAD
         return redirect('welcome')
+=======
+        return redirect('signup')
+
+def change_password(request):
+    return render(request, 'main/change_password.html')
+
+def otp(request):
+    email = request.POST['email']
+    otp = generate_otp()
+    try:
+        user = User.objects.get(email=email)
+    except:
+        messages.error(request, "User not found")
+    user.otp = otp
+    user.save()
+    subject, message = generate_otp_mail_fields(otp, user.fname)
+    send_mail_helper(subject, message, user.email)
+    return render(request, 'main/otp.html', {'email': user.email})
+
+def verify_otp(request):
+    if request.method == 'POST':
+        otp = request.POST.get('my_otp')
+        email = request.POST.get('email')
+        user = User.objects.get(email=email)
+        if str(user.otp) == otp:
+            return render(request, 'main/new_password.html', {'email': email})
+        else:
+            error_message = 'Wrong Otp! Please Try Again.'
+            return render(request, 'main/otp.html', {'email': email, 'error': error_message})
+    else:
+        return redirect('login')
+
+def new_password(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password_1')
+        password_2 = request.POST.get('password_2')
+        if password == password_2:
+            user = User.objects.get(email=email)
+            user.set_password(password)
+            user.save()
+            return render(request, 'main/password_changed.html')
+        else:
+            return render(request, 'main/new_password.html', {'email': email})
+    else:
+        return redirect('login')
+>>>>>>> c7dc79fb6d93279b07a89831e06be721b960fd8e

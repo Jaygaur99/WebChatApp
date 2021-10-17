@@ -1,5 +1,15 @@
 {% extends 'base.html' %}
 
+<<<<<<< HEAD
 {% block title %} 
     Home
+=======
+{% block body %} 
+    {% if user.is_authenticated %}
+    Hi {{ user.username }}!
+    {% else %}
+    <p>You are not logged in</p>
+    <a href="{% url 'login' %}">Log In</a>
+    {% endif %}
+>>>>>>> c7dc79fb6d93279b07a89831e06be721b960fd8e
 {% endblock %}
