@@ -3,7 +3,7 @@ from django.urls import path
 from .views import *
 
 urlpatterns = [
-    path('',home,name='home'), # Temporary
+    path('', home, name='home'), # Temporary
     path('login/', login_page, name='login'),
     path('signup/', signup, name='signup'),
     path('signhandle/', signhandle, name = 'signhandle'),
@@ -13,3 +13,5 @@ urlpatterns = [
     path('verify_otp/', verify_otp, name='verify_otp'),
     path('new_password', new_password, name='new_password'),
 ]
+
+
