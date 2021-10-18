@@ -5,7 +5,7 @@
 
 {% block body %}
     <div class="d-flex justify-content-center">
-        <form action="{% url "verify_otp" %}" method="post">
+        <form action="{% url "main:verify_otp" %}" method="post">
             {% if error %}
                 <p>{{ error }}</p>
             {% endif %}

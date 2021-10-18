@@ -3,18 +3,16 @@
 {% block body %} 
     {% if user.is_authenticated %}
 
-        {% comment %} Writing friend request logic {% endcomment %}
         <h1>To send friend request</h1>
         {% for users in allusers %}
-            {% comment %} {% if not user.is_superuser %}
-                {% if user not in request.users.friends.all and user != request.user %} {% endcomment %}
-                    <h3>{{ users.fname }} <a href="{% url 'send_friend_request' userID=users.id %}">Send friend request</a></h3>
-                {% comment %} {% endif %}
-            {% endif %} {% endcomment %}
+            {% if request.user != users and users not in request.user.friends.all %}
+                <h3>{{ users.fname }} <a href="{% url 'main:send_friend_request' userID=users.id %}">Send friend request</a></h3>
+            {% endif %}
         {% endfor %}
+
 
     {% else %}
     <p>You are not logged in</p>
-    <a href="{% url 'login' %}">Log In</a>
+    <a href="{% url 'main:login' %}">Log In</a>
     {% endif %}
 {% endblock %}
