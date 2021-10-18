@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Friend Request
+{% endblock %}
+
+{% block css_file %}
+
+{% endblock %}
+
+{% block body %}
+    <div class='container justify-content-center'>
+        <h2>Received friend request</h2>
+        <br>
+        {% for friend_request in all_friend_requests %}
+            <p>
+                {{ friend_request.from_user }}
+                <a href="{% url 'accept_friend_request' requestID=friend_request.id %}">Accept Friend request</a>
+            </p>
+        {% empty %}
+            <h5>No friend request received.</h5>
+        {% endfor %}
+    </div>
+    <div class='container justify-content-center'>
+        <h2>Friends List</h2>
+        <br>
+        <br>
+        {% for friends in all_friends %}
+            <p>
+                {{ friends.get_full_name }}
+                <br>
+                {{ friends.email }}
+            </p>
+        {% endfor %}
+    </div>
+{% endblock %}

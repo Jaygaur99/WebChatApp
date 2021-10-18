@@ -1,13 +1,13 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib import messages 
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User 
 from .forms import *
 from django.conf import settings
-from django.core.mail import EmailMessage
-import random
+from .models import *
 from .helpers import *
+
 
 # Create your views here.
 def login_page(request):
@@ -28,7 +28,9 @@ def loginauth(request):
         return redirect('login')
 
 def home(request):
-    return render(request,'main/home.html')
+    user = get_user_model()
+    all_users = user.objects.all()
+    return render(request,'main/home.html', {'allusers': all_users })
 
 def signup(request):
     form = RegisterForm
@@ -102,3 +104,39 @@ def new_password(request):
             return render(request, 'main/new_password.html', {'email': email})
     else:
         return redirect('login')
+
+# ----- Creating Views for friend request -------
+@login_required
+def send_friend_request(request, userID):
+    """Send friend request"""
+    from_user = request.user
+    to_user = User.objects.get(id=userID)
+    friend_request, created = UserRelationShip.objects.get_or_create(from_user=from_user, to_user=to_user)
+    if created:
+        return HttpResponse('Friend request sent')
+    else:
+        return HttpResponse('Friend request was already sent')
+
+@login_required
+def accept_friend_request(request, requestID):
+    """Accept friend request"""
+    friend_request = UserRelationShip.objects.get(id=requestID)
+    if friend_request.to_user == request.user:
+        friend_request.to_user.friends.add(friend_request.from_user)
+        friend_request.from_user.friends.add(friend_request.to_user)
+        friend_request.delete()
+        return HttpResponse('Friend Request accepted')
+    else:
+        return HttpResponse('Friend request not accepted')
+
+@login_required
+def friend_list(request):
+    """Returns Friend List page"""
+    user = request.user
+    all_friend_requests = UserRelationShip.objects.filter(to_user=user)
+    user_db = User.objects.get(email=request.user)
+    all_friends = user_db.friends.all()
+    return render(request, 'main/current_friends.html', {
+        'all_friend_requests': all_friend_requests, 
+        'all_friends': all_friends
+    })
