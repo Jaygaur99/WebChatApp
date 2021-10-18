@@ -33,9 +33,7 @@ def loginauth(request):
         return redirect('login')
 
 def home(request):
-    user = get_user_model()
-    all_users = user.objects.all()
-    return render(request,'main/home.html', {'allusers': all_users })
+    return render(request,'main/home.html')
 
 def signup(request):
     form = RegisterForm
@@ -117,16 +115,18 @@ def new_password(request):
     else:
         return redirect('login')
 
-<<<<<<< HEAD
-def requests(request):
+def sentrequests(request):
+    user = get_user_model()
+    all_users = user.objects.all()
     if request.method == 'POST':
-        return render(request,'main/add_friends.html')
+        return render(request,'main/add_friends.html', {'allusers': all_users })
     else:
         return redirect('home')
-=======
+
+
 # ----- Creating Views for friend request -------
 @login_required
-def send_friend_request(request, userID):
+def sent_friend_request(request, userID):
     """Send friend request"""
     from_user = request.user
     to_user = User.objects.get(id=userID)
@@ -151,12 +151,16 @@ def accept_friend_request(request, requestID):
 @login_required
 def friend_list(request):
     """Returns Friend List page"""
-    user = request.user
-    all_friend_requests = UserRelationShip.objects.filter(to_user=user)
     user_db = User.objects.get(email=request.user)
     all_friends = user_db.friends.all()
     return render(request, 'main/current_friends.html', {
-        'all_friend_requests': all_friend_requests, 
         'all_friends': all_friends
     })
->>>>>>> a19419b35ac0e0490e1705e8839cfef4fafd599e
+
+@login_required
+def recievedrequests(request):
+    user = request.user
+    all_friend_requests = UserRelationShip.objects.filter(to_user=user)
+    return render(request, 'main/friends_requests.html', {
+        'all_friend_requests': all_friend_requests, 
+    })

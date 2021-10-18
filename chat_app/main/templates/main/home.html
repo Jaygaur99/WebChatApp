@@ -8,35 +8,40 @@
 
     <nav class="navbar navbar-light bg-light">
         <div class="container-fluid">
-            <form class="d-flex order-1" method="post" action="{% url 'searchhandle' %}">
+            <form class="d-flex order-1" autocomplete="off" method="post" action="{% url 'searchhandle' %}">
                 {% csrf_token %}
-                <input class="form-control me-2" type="text" placeholder="Search" aria-label="Search" name='email'>
+                <div class="autocomplete" style="width:800px;">
+                <input class="form-control me-2 " type="text" placeholder="Search" aria-label="Search" name='email'>
+                </div>
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
-            <form class="d-flex order-2" method="post" action="{% url 'requests' %}">
+
+            {% if user.is_authenticated %}
+
+            <form class="d-flex order-2" method="post" action="{% url 'friend_list' %}">
+                {% csrf_token %}
+                <button class="btn btn-outline-success" type="submit">Friends</button>
+            </form>
+
+            <form class="d-flex order-2" method="post" action="{% url 'sentrequests' %}">
                 {% csrf_token %}
                 <button class="btn btn-outline-success" type="submit">Add Friends</button>
             </form>
+
+            <form class="d-flex order-2" method="post" action="{% url 'recievedrequests' %}">
+                {% csrf_token %}
+                <button class="btn btn-outline-success" type="submit">Friend Requests</button>
+            </form>
+        
+            {% else %}
+            <p>You are not logged in</p>
+            <a href="{% url 'login' %}">Log In</a>
+            {% endif %}
+
         </div>
     </nav>
 
-    
-    {% if user.is_authenticated %}
 
-        {% comment %} Writing friend request logic {% endcomment %}
-        <h1>To send friend request</h1>
-        {% for users in allusers %}
-            {% comment %} {% if not user.is_superuser %}
-                {% if user not in request.users.friends.all and user != request.user %} {% endcomment %}
-                    <h3>{{ users.fname }} <a href="{% url 'send_friend_request' userID=users.id %}">Send friend request</a></h3>
-                {% comment %} {% endif %}
-            {% endif %} {% endcomment %}
-        {% endfor %}
-
-    {% else %}
-    <p>You are not logged in</p>
-    <a href="{% url 'login' %}">Log In</a>
-    {% endif %}
 
     <br>
     
@@ -47,5 +52,6 @@
     <a href="{% url 'searchhandle' %}">Log In</a>
     {% endif %}
 
+{{emails}}
 
 {% endblock %}
