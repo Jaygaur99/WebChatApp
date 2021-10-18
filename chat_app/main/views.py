@@ -114,3 +114,9 @@ def new_password(request):
             return render(request, 'main/new_password.html', {'email': email})
     else:
         return redirect('login')
+
+def requests(request):
+    if request.method == 'POST':
+        return render(request,'main/add_friends.html')
+    else:
+        return redirect('home')

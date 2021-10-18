@@ -11,6 +11,7 @@ urlpatterns = [
     path('change_password/', change_password, name = 'change_password'),
     path('otp/', otp, name='otp'),
     path('verify_otp/', verify_otp, name='verify_otp'),
-    path('new_password', new_password, name='new_password'),
-    path('searchhandle',searchhandle,name='searchhandle')
+    path('new_password/', new_password, name='new_password'),
+    path('searchhandle/',searchhandle,name='searchhandle'),
+    path('requests/',requests,name='requests')
 ]

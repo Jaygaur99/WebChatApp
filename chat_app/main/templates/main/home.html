@@ -8,11 +8,15 @@
 
     <nav class="navbar navbar-light bg-light">
         <div class="container-fluid">
-        <form class="d-flex" method="post" action="{% url 'searchhandle' %}">
-            {% csrf_token %}
-            <input class="form-control me-2" type="text" placeholder="Search" aria-label="Search" name='email'>
-            <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
+            <form class="d-flex order-1" method="post" action="{% url 'searchhandle' %}">
+                {% csrf_token %}
+                <input class="form-control me-2" type="text" placeholder="Search" aria-label="Search" name='email'>
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+            <form class="d-flex order-2" method="post" action="{% url 'requests' %}">
+                {% csrf_token %}
+                <button class="btn btn-outline-success" type="submit">Add Friends</button>
+            </form>
         </div>
     </nav>
 
