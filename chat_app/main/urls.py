@@ -2,8 +2,9 @@ from django.contrib import admin
 from django.urls import path
 from .views import *
 
+app_name = 'main'
+
 urlpatterns = [
-    path('', home, name='home'), # Temporary
     path('login/', login_page, name='login'),
     path('signup/', signup, name='signup'),
     path('signhandle/', signhandle, name = 'signhandle'),

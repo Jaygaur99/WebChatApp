@@ -9,7 +9,22 @@
 {% endblock %}
 
 {% block body %}
+<<<<<<< HEAD
 
+=======
+    <div class='container justify-content-center'>
+        <h2>Received friend request</h2>
+        <br>
+        {% for friend_request in all_friend_requests %}
+            <p>
+                {{ friend_request.from_user }}
+                <a href="{% url 'main:accept_friend_request' requestID=friend_request.id %}">Accept Friend request</a>
+            </p>
+        {% empty %}
+            <h5>No friend request received.</h5>
+        {% endfor %}
+    </div>
+>>>>>>> 06e50045f751003d0b71e21015b6408dd2903e8c
     <div class='container justify-content-center'>
         <h2>Friends List</h2>
         <br>

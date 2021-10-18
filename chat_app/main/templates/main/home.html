@@ -6,6 +6,7 @@
 
 {% block body %} 
 
+<<<<<<< HEAD
     <nav class="navbar navbar-light bg-light">
         <div class="container-fluid">
             <form class="d-flex order-1" autocomplete="off" method="post" action="{% url 'searchhandle' %}">
@@ -50,6 +51,19 @@
     {% else %}
     <p>{{ email }} is not available</p>
     <a href="{% url 'searchhandle' %}">Log In</a>
+=======
+        <h1>To send friend request</h1>
+        {% for users in allusers %}
+            {% if request.user != users and users not in request.user.friends.all %}
+                <h3>{{ users.fname }} <a href="{% url 'main:send_friend_request' userID=users.id %}">Send friend request</a></h3>
+            {% endif %}
+        {% endfor %}
+
+
+    {% else %}
+    <p>You are not logged in</p>
+    <a href="{% url 'main:login' %}">Log In</a>
+>>>>>>> 06e50045f751003d0b71e21015b6408dd2903e8c
     {% endif %}
 
 {{emails}}
