@@ -6,7 +6,7 @@
 
 </div>
 <div class="d-flex justify-content-center align-items-center container-lg">
-    <form method="post" action="{% url " loginauth " %}">
+    <form method="post" action="{% url "loginauth" %}">
         {% csrf_token %}
         <input placeholder="Email ID :" type="text" class="form-control" name="email">
         <input placeholder="Password :" type="password" class="form-control" name="password">
