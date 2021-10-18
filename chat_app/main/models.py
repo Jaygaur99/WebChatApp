@@ -33,6 +33,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     fname = models.CharField(max_length=255)
     lname = models.CharField(max_length=255)
     dob = models.DateField()
+    profile_pic = models.ImageField(upload_to='profile_pic/%Y/%m/%d/', default='/images/default_profile_pic.png')
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     otp = models.IntegerField(blank=True, null=True)
