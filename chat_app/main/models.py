@@ -37,6 +37,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     otp = models.IntegerField(blank=True, null=True)
+    friends = models.ManyToManyField("User", blank=True)
 
     objects = UserProfileManager()
 
@@ -45,7 +46,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_full_name(self):
         """Retrive full name of user"""
-        return self.fname + self.lname
+        return self.fname + " " + self.lname
 
     def get_short_name(self):
         """Retrive short name of user"""
@@ -62,3 +63,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         """Return string representation of our user"""
         return self.email
+
+class UserRelationShip(models.Model):
+    from_user = models.ForeignKey(User, related_name='from_user', on_delete=models.CASCADE)
+    to_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='to_user')
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        """Returns representation of relation between users"""
+        return f"{self.from_user.get_full_name()} -> {self.to_user.get_full_name()}"
