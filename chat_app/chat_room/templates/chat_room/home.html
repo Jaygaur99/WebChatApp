@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
-
-{% block body %} 
+<!--
     {% if user.is_authenticated %}
 
         <h1>To send friend request</h1>
@@ -14,4 +13,57 @@
     <p>You are not logged in</p>
     <a href="{% url 'main:login' %}">Log In</a>
     {% endif %}
+-->
+{% block title %} 
+    Home
+{% endblock %}
+
+{% block body %} 
+
+    <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+            <form class="d-flex order-1" autocomplete="off" method="post" action="{% url 'main:searchhandle' %}">
+                {% csrf_token %}
+                <div class="autocomplete" style="width:800px;">
+                <input class="form-control me-2 " type="text" placeholder="Search" aria-label="Search" name='email'>
+                </div>
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+
+            {% if user.is_authenticated %}
+
+            <form class="d-flex order-2" method="post" action="{% url 'main:friend_list' %}">
+                {% csrf_token %}
+                <button class="btn btn-outline-success" type="submit">Friends</button>
+            </form>
+
+            <form class="d-flex order-2" method="post" action="{% url 'main:sentrequests' %}">
+                {% csrf_token %}
+                <button class="btn btn-outline-success" type="submit">Add Friends</button>
+            </form>
+
+            <form class="d-flex order-2" method="post" action="{% url 'main:recievedrequests' %}">
+                {% csrf_token %}
+                <button class="btn btn-outline-success" type="submit">Friend Requests</button>
+            </form>
+        
+            {% else %}
+            <p>You are not logged in</p>
+            <a href="{% url 'login' %}">Log In</a>
+            {% endif %}
+
+        </div>
+    </nav>
+
+
+
+    <br>
+    
+    {% if user.is_authenticated %}
+    {{ email }} is available
+    {% else %}
+    <p>{{ email }} is not available</p>
+    <a href="{% url 'main:login' %}">Log In</a>
+    {% endif %}
+
 {% endblock %}

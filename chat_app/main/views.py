@@ -4,15 +4,12 @@ from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User 
 from .forms import *
-<<<<<<< HEAD
 
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
 from django.conf import settings
-=======
->>>>>>> 06e50045f751003d0b71e21015b6408dd2903e8c
 from .models import *
 from .helpers import *
 
@@ -35,15 +32,8 @@ def loginauth(request):
     else:
         return redirect('main:login')
 
-<<<<<<< HEAD
 def home(request):
     return render(request,'main/home.html')
-=======
-# def home(request):
-#     user = get_user_model()
-#     all_users = user.objects.all()
-#     return render(request,'main/home.html', {'allusers': all_users })
->>>>>>> 06e50045f751003d0b71e21015b6408dd2903e8c
 
 def signup(request):
     form = RegisterForm
@@ -70,7 +60,6 @@ def signhandle(request):
         messages.success(request, " account has been successfully created")
         return redirect('main:login')
     else:
-<<<<<<< HEAD
         return redirect('home')
 
 def searchhandle(request):
@@ -78,12 +67,9 @@ def searchhandle(request):
         email = request.POST['email']
         obj = User.objects.all().filter(email=email)
         print(obj)
-        return render(request,'main/home.html',context={'email':obj[0]})
+        return render(request,'chat_room/home.html',context={'email':obj[0]})
     else:
         return redirect('home')
-=======
-        return redirect('main:signup')
->>>>>>> 06e50045f751003d0b71e21015b6408dd2903e8c
 
 def change_password(request):
     return render(request, 'main/change_password.html')
