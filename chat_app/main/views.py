@@ -4,6 +4,12 @@ from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User 
 from .forms import *
+
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
+from django.conf import settings
 from .models import *
 from .helpers import *
 
@@ -26,10 +32,8 @@ def loginauth(request):
     else:
         return redirect('main:login')
 
-# def home(request):
-#     user = get_user_model()
-#     all_users = user.objects.all()
-#     return render(request,'main/home.html', {'allusers': all_users })
+def home(request):
+    return render(request,'main/home.html')
 
 def signup(request):
     form = RegisterForm
@@ -52,13 +56,20 @@ def signhandle(request):
              messages.error(request, " Passwords do not match")
              return redirect('main:signup')
         myuser = User.objects.create_user(email=email, fname=fname, lname=lname, dob=dob, password=pass1)
-        myuser.first_name = fname
-        myuser.last_name = lname
         myuser.save()
         messages.success(request, " account has been successfully created")
         return redirect('main:login')
     else:
-        return redirect('main:signup')
+        return redirect('home')
+
+def searchhandle(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        obj = User.objects.all().filter(email=email)
+        print(obj)
+        return render(request,'chat_room/home.html',context={'email':obj[0]})
+    else:
+        return redirect('home')
 
 def change_password(request):
     return render(request, 'main/change_password.html')
@@ -104,9 +115,18 @@ def new_password(request):
     else:
         return redirect('main:login')
 
+def sentrequests(request):
+    user = get_user_model()
+    all_users = user.objects.all()
+    if request.method == 'POST':
+        return render(request,'main/add_friends.html', {'allusers': all_users })
+    else:
+        return redirect('home')
+
+
 # ----- Creating Views for friend request -------
 @login_required
-def send_friend_request(request, userID):
+def sent_friend_request(request, userID):
     """Send friend request"""
     from_user = request.user
     to_user = User.objects.get(id=userID)
@@ -131,11 +151,16 @@ def accept_friend_request(request, requestID):
 @login_required
 def friend_list(request):
     """Returns Friend List page"""
-    user = request.user
-    all_friend_requests = UserRelationShip.objects.filter(to_user=user)
     user_db = User.objects.get(email=request.user)
     all_friends = user_db.friends.all()
     return render(request, 'main/current_friends.html', {
-        'all_friend_requests': all_friend_requests, 
         'all_friends': all_friends
+    })
+
+@login_required
+def recievedrequests(request):
+    user = request.user
+    all_friend_requests = UserRelationShip.objects.filter(to_user=user)
+    return render(request, 'main/friends_requests.html', {
+        'all_friend_requests': all_friend_requests, 
     })
