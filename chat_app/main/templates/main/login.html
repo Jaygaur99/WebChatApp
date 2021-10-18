@@ -6,13 +6,6 @@
     login
 {% endblock %}
 
-<<<<<<< HEAD
-{% block loginform %}
-    <div class="modal-header">
-
-    <h5 class="modal-title" id="loginModalTitle">Login Here</h5>
-
-=======
 {% block css_file %}
     <link rel="stylesheet" href="{% static 'main/login.css' %}">
 {% endblock %}
@@ -22,7 +15,6 @@
 
     <h5 class="modal-title" id="loginModalTitle">Login Here</h5>
 
->>>>>>> c7dc79fb6d93279b07a89831e06be721b960fd8e
     </div>
     <div class="d-flex justify-content-center align-items-center container-lg">   
         <form  method="post" action="{% url "loginauth" %}">
@@ -45,10 +37,5 @@
           {% endfor %}
       </ul>
       {% endif %}
-<<<<<<< HEAD
-  </div>
-
-=======
     </div>
->>>>>>> c7dc79fb6d93279b07a89831e06be721b960fd8e
 {% endblock %}

@@ -4,17 +4,16 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User 
 from .forms import *
-<<<<<<< HEAD
+
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
-=======
+
 from django.conf import settings
 from django.core.mail import EmailMessage
 import random
 from .helpers import *
 
->>>>>>> c7dc79fb6d93279b07a89831e06be721b960fd8e
 # Create your views here.
 def login_page(request):
     return render(request,'main/login.html')
@@ -53,30 +52,24 @@ def signhandle(request):
         pass2 = request.POST['password_2']
         dob = request.POST['dob']
 
-<<<<<<< HEAD
-
-        if (pass1!= pass2):
-             messages.error(request, " Passwords do not match")
-             return redirect('signup')
-        
-        # Create the user
-        myuser = User.objects.create_user(email=email, fname=fname, lname=lname, dob=dob, password=pass1)
-=======
         if (pass1!= pass2):
              messages.error(request, " Passwords do not match")
              return redirect('signup')
         myuser = User.objects.create_user(email=email, fname=fname, lname=lname, dob=dob, password=pass1)
-        myuser.first_name = fname
-        myuser.last_name = lname
->>>>>>> c7dc79fb6d93279b07a89831e06be721b960fd8e
         myuser.save()
         messages.success(request, " account has been successfully created")
         return redirect('login')
     else:
-<<<<<<< HEAD
-        return redirect('welcome')
-=======
-        return redirect('signup')
+        return redirect('home')
+
+def searchhandle(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        obj = User.objects.all().filter(email=email)
+        print(obj)
+        return render(request,'main/home.html',context={'email':obj[0]})
+    else:
+        return redirect('home')
 
 def change_password(request):
     return render(request, 'main/change_password.html')
@@ -121,4 +114,3 @@ def new_password(request):
             return render(request, 'main/new_password.html', {'email': email})
     else:
         return redirect('login')
->>>>>>> c7dc79fb6d93279b07a89831e06be721b960fd8e

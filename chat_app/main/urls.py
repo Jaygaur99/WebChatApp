@@ -8,14 +8,9 @@ urlpatterns = [
     path('signup/', signup, name='signup'),
     path('signhandle/', signhandle, name = 'signhandle'),
     path('loginauth/', loginauth, name = 'loginauth'),
-<<<<<<< HEAD
-]
-=======
     path('change_password/', change_password, name = 'change_password'),
     path('otp/', otp, name='otp'),
     path('verify_otp/', verify_otp, name='verify_otp'),
     path('new_password', new_password, name='new_password'),
+    path('searchhandle',searchhandle,name='searchhandle')
 ]
-
-
->>>>>>> c7dc79fb6d93279b07a89831e06be721b960fd8e
