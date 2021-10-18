@@ -1,14 +1,49 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    DoChat - Home
+{% endblock %}
+
+{% block css_file %}
+    <link rel="stylesheet" href="{% static 'chat_room/home.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+{% endblock css_file %}
 
 {% block body %} 
     {% if user.is_authenticated %}
 
-        <h1>To send friend request</h1>
-        {% for users in allusers %}
-            {% if request.user != users and users not in request.user.friends.all %}
-                <h3>{{ users.fname }} <a href="{% url 'main:send_friend_request' userID=users.id %}">Send friend request</a></h3>
-            {% endif %}
-        {% endfor %}
+    <div class='green-background'>
+        <div class='wrapper'>
+            <section class='left'>
+                <div class='profile'>
+                    <img src="" alt="UserIMG">
+                    <h3>{{ request.user.get_full_name }}</h3>
+                </div>
+                <div class='wrap-search'>
+                    <div class='search'>
+                        <span class='fa fa-search'></span>
+                        <input type="text" class='input-search' placeholder="Enter name">
+                    </div>
+                </div>
+                <div class='friends'>
+                    {% for friend in request.user.friends.all %}
+                        <div class='friend' id="{{ friend.id }}">
+                            <div class='contact-preview'>
+                                <div class='contact-text'>
+                                    <h1 class='font-name'>{{ friend.get_full_name }}</h1>
+                                    <p class='font-preview'>{{ friend.email }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </section>
+            <section class='right'>
+
+            </section>
+        </div>
+    </div>
 
     {% else %}
     <p>You are not logged in</p>
