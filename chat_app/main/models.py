@@ -64,6 +64,10 @@ class User(AbstractBaseUser, PermissionsMixin):
         """Return string representation of our user"""
         return self.email
 
+    def get_username(self):
+        """Returns username by dividing email"""
+        return self.email.split('@')[0]
+
 class UserRelationShip(models.Model):
     from_user = models.ForeignKey(User, related_name='from_user', on_delete=models.CASCADE)
     to_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='to_user')
