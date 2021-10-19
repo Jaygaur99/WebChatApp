@@ -1,19 +1,4 @@
 {% extends 'base.html' %}
-<!--
-    {% if user.is_authenticated %}
-
-        <h1>To send friend request</h1>
-        {% for users in allusers %}
-            {% if request.user != users and users not in request.user.friends.all %}
-                <h3>{{ users.fname }} <a href="{% url 'main:send_friend_request' userID=users.id %}">Send friend request</a></h3>
-            {% endif %}
-        {% endfor %}
-
-    {% else %}
-    <p>You are not logged in</p>
-    <a href="{% url 'main:login' %}">Log In</a>
-    {% endif %}
--->
 {% block title %} 
     Home
 {% endblock %}
