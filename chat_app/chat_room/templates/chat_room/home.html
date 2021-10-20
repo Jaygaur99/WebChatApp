@@ -30,7 +30,7 @@
                     {% for friend in request.user.friends.all %}
                         <div class='friend' id="{{ friend.id }}">
                             <div class='contact-preview'>
-                                <img src="media/{{ friend.profile_pic}}" alt="UserImg">
+                                <img src="media/{{ friend.profile_pic }}" alt="UserImg">
                                 <div class='contact-text'>
                                     <h1 class='font-name'>{{ friend.get_full_name }}</h1>
                                     <p class='font-preview'>{{ friend.email }}</p>
@@ -41,7 +41,9 @@
                 </div>
             </section>
             <section class='right'>
-
+                <div class='chat_box'>
+                
+                </div>
             </section>
         </div>
     </div>
@@ -53,6 +55,46 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <script type="text/javascript">
-        
+        // Get csrf from cookie
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+            
+
+        $('.friend').click(function(e) {
+            var data = { id: parseInt(e.target.id) };
+            var options = {
+                method: 'POST',
+                headers: {
+                     "X-CSRFToken": getCookie("csrftoken"),
+                     'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            };
+            console.log(options);
+            var html_data = fetch("{% url 'chat_room:chat_person' %}", options)
+                                .then(function (response) {
+                                    // The API call was successful!
+                                    return response.text();
+                                }).then(function (html) {
+                                    // This is the HTML from our response as a text string
+                                    console.log(html);
+                                    $('.chat_box').append(html);
+                                }); 
+            /* console.log(typeof html_data);
+            console.log(html_data); */
+        });
     </script>
 {% endblock %}
