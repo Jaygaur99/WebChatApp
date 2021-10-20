@@ -11,4 +11,4 @@ def two_username_to_one_username(u1, u2):
         return '-chat-'.join([u1, u2])
 
 if __name__ == '__main__':
-    print(two_username_to_one_username('jaygaur99@gmail.com', 'heshabhishek@gmail.com'))
+    print(two_username_to_one_username('heshabhishek@gmail.com', 'jaygaur99@gmail.com'))
