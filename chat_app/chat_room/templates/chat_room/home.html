@@ -9,9 +9,10 @@
         <div class="container-fluid">
             <form class="d-flex order-1" autocomplete="off" method="post" action="{% url 'main:searchhandle' %}">
                 {% csrf_token %}
-                <div class="autocomplete" style="width:800px;">
-                <input class="form-control me-2 " type="text" placeholder="Search" aria-label="Search" name='email'>
-                </div>
+                <div class='autocomplete' id="autocomplete" style="width:800px;">
+                <input class="form-control me-2 autocomplete-input" type="text" placeholder="Search" aria-label="Search" name='email'>
+                <ul class="autocomplete-result-list"></ul>
+            </div>
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
 
@@ -40,15 +41,60 @@
         </div>
     </nav>
 
-
-
     <br>
-    
     {% if user.is_authenticated %}
-    {{ email }} is available
+    {{ email}} is available
     {% else %}
     <p>{{ email }} is not available</p>
     <a href="{% url 'main:login' %}">Log In</a>
     {% endif %}
+
+    <script src="https://unpkg.com/@trevoreyre/autocomplete-js"></script>
+    
+    <script>
+        new Autocomplete("#autocomplete",{
+            search :input =>{
+                console.log(input)
+                const url = `/search/?email=${(input)}`
+                return new Promise(resolve =>{
+                    fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data)
+                        resolve(data.data)
+                    })
+                })
+            }
+        })
+    </script>
+    <!--
+        ,
+
+
+            renderResult: (result, props) => {
+                console.log(props)
+        
+                let group = ''
+                if (result.index % 3 === 0) {
+                    group = `<li class="group">Group</li>`
+                }
+                return `
+      ${group}
+      <li ${props}>
+        <div class="wiki-title">
+          ${result}
+        </div>
+        
+      </li>
+    `
+            },
+
+            getResultValue: result => result,
+            onSubmit: result => {
+                window.open(`/places/?=${(result)}`)
+            }
+        })
+    -->
+
 
 {% endblock %}

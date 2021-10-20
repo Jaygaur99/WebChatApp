@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User 
 from .forms import *
-
+import json
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -13,6 +13,7 @@ from django.conf import settings
 from .models import *
 from .helpers import *
 
+from django.http import JsonResponse
 
 # Create your views here.
 def login_page(request):
@@ -33,7 +34,32 @@ def loginauth(request):
         return redirect('main:login')
 
 def home(request):
-    return render(request,'main/home.html')
+    return render(request,'chat_room/home.html')
+
+"""
+def autocompletion(request):
+    user = get_user_model()
+    if 'email' in request.GET:
+        qs = user.objects.filter(email__icontains=request.GET.get('email'))
+        objects = list()
+        for obj in qs :
+            objects.append(obj.email)
+        return JsonResponse(objects,safe=False)
+    return render(request,'chat_room/home.html')
+"""
+
+def autocompletion(request):
+    User = get_user_model()
+    user = request.GET.get('email')
+    emails = []
+    print(user)
+    if user:
+        user_objs = User.objects.filter(email__contains = user)
+        for obj in user_objs:
+            emails.append((obj.email))
+        print(emails)
+    return JsonResponse({'status':200,'data':emails},safe=False)
+
 
 def signup(request):
     form = RegisterForm
@@ -64,9 +90,8 @@ def signhandle(request):
 
 def searchhandle(request):
     if request.method == 'POST':
-        email = request.POST['email']
-        obj = User.objects.all().filter(email=email)
-        print(obj)
+        Email = request.POST['email']
+        obj = User.objects.all().filter(email=Email)
         return render(request,'chat_room/home.html',context={'email':obj[0]})
     else:
         return redirect('home')
