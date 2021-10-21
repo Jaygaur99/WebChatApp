@@ -40,55 +40,55 @@
                 <button class="btn btn-outline-success" type="submit">Friend Requests</button>
             </form>
         
-            {% else %}
-            <p>You are not logged in</p>
-            <a href="{% url 'login' %}">Log In</a>
-            {% endif %}
-    <div class='green-background'>
-        <div class='wrapper'>
-            <section class='left'>
-                <div class='profile'>
-                    <img src="media/{{ request.user.profile_pic}}" alt="UserIMG">
-                    <h3>{{ request.user.get_full_name }}</h3>
-                </div>
-                <div class='wrap-search'>
-                    <div class='search'>
-                        <span class='fa fa-search'></span>
-                        <input type="text" class='input-search' placeholder="Enter name">
-                    </div>
-                </div>
-                <div class='friends'>
-                    {% for friend in request.user.friends.all %}
-                        <div class='friend' id="{{ friend.id }}">
-                            <div class='contact-preview'>
-                                <img src="media/{{ friend.profile_pic }}" alt="UserImg">
-                                <div class='contact-text'>
-                                    <h1 class='font-name'>{{ friend.get_full_name }}</h1>
-                                    <p class='font-preview'>{{ friend.email }}</p>
-                                </div>
+            <div class='green-background'>
+                <div class='wrapper'>
+                    <section class='left'>
+                        <div class='profile'>
+                            <img src="media/{{ request.user.profile_pic}}" alt="UserIMG">
+                            <h3>{{ request.user.get_full_name }}</h3>
+                        </div>
+                        <div class='wrap-search'>
+                            <div class='search'>
+                                <span class='fa fa-search'></span>
+                                <input type="text" class='input-search' placeholder="Enter name">
                             </div>
                         </div>
-                    {% endfor %}
+                        <div class='friends'>
+                            {% for friend in request.user.friends.all %}
+                                <div class='friend' id="{{ friend.id }}">
+                                    <div class='contact-preview'>
+                                        <img src="media/{{ friend.profile_pic }}" alt="UserImg">
+                                        <div class='contact-text'>
+                                            <h1 class='font-name'>{{ friend.get_full_name }}</h1>
+                                            <p class='font-preview'>{{ friend.email }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </section>
+                    <section class='right'>
+                        <div class='chat_box'>
+                        
+                        </div>
+                    </section>
                 </div>
-            </section>
-            <section class='right'>
-                <div class='chat_box'>
-                
-                </div>
-            </section>
-        </div>
-    </div>
-
+            </div>
+            {% else %}
+            <p>You are not logged in</p>
+            <a href="{% url 'main:login' %}">Log In</a>
+            {% endif %}
+            
         </div>
     </nav>
 
-    <br>
+    {% comment %} <br>
     {% if user.is_authenticated %}
     {{ email}} is available
     {% else %}
     <p>{{ email }} is not available</p>
     <a href="{% url 'main:login' %}">Log In</a>
-    {% endif %}
+    {% endif %} {% endcomment %}
 
     <script src="https://unpkg.com/@trevoreyre/autocomplete-js"></script>
     

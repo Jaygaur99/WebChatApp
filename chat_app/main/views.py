@@ -52,12 +52,12 @@ def autocompletion(request):
     User = get_user_model()
     user = request.GET.get('email')
     emails = []
-    print(user)
+    # print(user)
     if user:
         user_objs = User.objects.filter(email__contains = user)
         for obj in user_objs:
             emails.append((obj.email))
-        print(emails)
+        # print(emails)
     return JsonResponse({'status':200,'data':emails},safe=False)
 
 
@@ -90,9 +90,10 @@ def signhandle(request):
 
 def searchhandle(request):
     if request.method == 'POST':
-        Email = request.POST['email']
-        obj = User.objects.all().filter(email=Email)
-        return render(request,'chat_room/home.html',context={'email':obj[0]})
+        email_or_name = request.POST['email']
+        user_list = User.objects.filter(email__icontains=email_or_name)
+        print(user_list)
+        return render(request,'chat_room/results.html', context={'user_list': user_list})
     else:
         return redirect('home')
 
