@@ -14,7 +14,7 @@
 
     <nav class="navbar navbar-light bg-light">
         <div class="container-fluid">
-            <form class="d-flex order-1" autocomplete="off" method="post" action="{% url 'main:searchhandle' %}">
+            <form class="d-flex order-1" autocomplete="off" method="post" action="{% url 'chat_room:searchhandle' %}">
                 {% csrf_token %}
                 <div class='autocomplete' id="autocomplete" style="width:800px;">
                 <input class="form-control me-2 autocomplete-input" type="text" placeholder="Search" aria-label="Search" name='email'>

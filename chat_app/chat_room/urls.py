@@ -7,7 +7,9 @@ app_name = 'chat_room'
 urlpatterns = [    
     path('', home, name='home'),
     path('index/', index, name='index'),
-    path('chat_person/', chat_person, name='chat_person')
+    path('chat_person/', chat_person, name='chat_person'),
+    path('searchhandle/',searchhandle,name='searchhandle'),
+    path('search/',autocompletion,name='autocompletion')
 ]
 
 
