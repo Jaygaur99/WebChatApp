@@ -2,6 +2,7 @@ import json
 from django.shortcuts import render
 from django.contrib.auth import get_user_model
 from .helpers import two_username_to_one_username
+from .models import Message
 # Create your views here.
 
 def home(request):
@@ -21,13 +22,23 @@ def home(request):
 def chat_person(request):
     User = get_user_model()
     email = request.user.email
-    # print(json.loads(request.body))
     name = json.loads(request.body).get('id')
-    # print(name)
     user = User.objects.get(id=name)
     usernames = two_username_to_one_username(email, user.email)
-    # print(usernames)
-    return render(request, 'chat_room/chat.html', {'user':user, 'name':name, 'usernames':usernames})
+    messages = []
+    for obj in Message.objects.filter(chat_identifier=usernames):
+        messages.append({ 
+            'message': obj.content.split(":")[1],
+            'from_user': obj.from_user,
+            'to_user': obj.to_user
+        })
+    # print(messages)
+    return render(request, 'chat_room/chat.html', {
+        'user':user,
+        'name':name,
+        'usernames':usernames,
+        'messages': messages
+        })
 
 def index(request):
     return render(request, 'chat_room/index.html')

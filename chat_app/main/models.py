@@ -69,8 +69,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.email.split('@')[0]
 
 class UserRelationShip(models.Model):
-    from_user = models.ForeignKey(User, related_name='from_user', on_delete=models.CASCADE)
-    to_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='to_user')
+    from_user = models.ForeignKey(User, related_name='from_user_chat', on_delete=models.CASCADE)
+    to_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='to_user_chat')
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
