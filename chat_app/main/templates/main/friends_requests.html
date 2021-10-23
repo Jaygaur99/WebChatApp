@@ -15,7 +15,7 @@
         {% for friend_request in all_friend_requests %}
             <p>
                 {{ friend_request.from_user }}
-                <a href="{% url 'accept_friend_request' requestID=friend_request.id %}">Accept Friend request</a>
+                <a href="{% url 'main:accept_friend_request' requestID=friend_request.id %}">Accept Friend request</a>
             </p>
         {% empty %}
             <h5>No friend request received.</h5>

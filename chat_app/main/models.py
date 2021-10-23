@@ -1,5 +1,4 @@
 from django.db import models
-# from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, UserManager
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import BaseUserManager
@@ -34,6 +33,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     fname = models.CharField(max_length=255)
     lname = models.CharField(max_length=255)
     dob = models.DateField()
+    profile_pic = models.ImageField(upload_to='profile_pic/%Y/%m/%d/', default='images/default_profile_pic.png')
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     otp = models.IntegerField(blank=True, null=True)
@@ -63,6 +63,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         """Return string representation of our user"""
         return self.email
+
+    def get_username(self):
+        """Returns username by dividing email"""
+        return self.email.split('@')[0]
 
 class UserRelationShip(models.Model):
     from_user = models.ForeignKey(User, related_name='from_user', on_delete=models.CASCADE)
