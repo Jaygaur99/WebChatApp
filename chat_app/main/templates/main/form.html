@@ -8,8 +8,11 @@
 
 {% block body %}
 
+
+<link rel="stylesheet" href="{% static 'main/form.css' %}">
+
   <div class="modal-header">
-    <h5 class="modal-title" id="loginModalTitle">Signup Here</h5>
+    <h3 class="modal-title" id="loginModalTitle">Signup</h3>
   </div>
   <div class="d-flex justify-content-center align-items-center container-lg">
     <form method="post" action="{% url "main:signhandle" %}">
@@ -27,5 +30,5 @@
         </ul>
         {% endif %}
     </div>
-
+    
 {% endblock %}
