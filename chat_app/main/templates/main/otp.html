@@ -1,7 +1,14 @@
 {% extends 'base.html' %}
+
+{% load static %}
+
 {% block title %}
     Change My Password
 {% endblock title %}
+
+{% block css_file %}
+<link rel="stylesheet" href="{% static 'main/otp.css' %}">
+{% endblock %}
 
 {% block body %}
     <div class="d-flex justify-content-center">
@@ -10,11 +17,17 @@
                 <p>{{ error }}</p>
             {% endif %}
             {% csrf_token %}
-            <label for="my_otp">Enter 6 digit OTP send to your email. <br>
-            Note: Check spam if not received.</label>
-            <input id="my_otp" type="number" name="my_otp">
+            <label for="my_otp">Enter 6 digit OTP sent to your email</label>
+            <div class="d-flex justify-content-center align-items-center container-lg">
+            <input id="my_otp" type="number" name="my_otp" style="background-color: #ffffff" required>
+            </div>
             <input type="hidden" name='email' value={{ email }}>
+            <div class="d-flex justify-content-center align-items-center container-lg" >
             <input type="submit" value='Submit'>
+            </div>
+            <div class="d-flex justify-content-center align-items-center container-lg" >
+            <p>*Note: Check spam if not received*</p>
+            </div>
         </form>
     </div>
 {% endblock body %}
