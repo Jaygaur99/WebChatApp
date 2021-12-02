@@ -7,7 +7,7 @@
 }
 
 body {
-    background: #dbdbdb;
+    background: #8B008B;
 }
 
 
@@ -47,7 +47,7 @@ body {
 }
 
 .profile {
-    background: #eeeeee;
+    background:  #b784f1;
     border-right: 1px solid #dbdbdb;
     vertical-align: middle;
     display: flex;
@@ -73,7 +73,7 @@ body {
 .wrap-search {
     width: 100%;
     height: 45px;
-    background: #fbfbfb;
+    background: #b11ccf;
     display: flex;
 }
 
@@ -92,7 +92,7 @@ body {
 }
 
 .search i, .wrap-message i {
-    color: #aaaaaa;
+    color: #693434;
     text-align: center;
 }
 
@@ -106,7 +106,7 @@ body {
 }
 
 .friends {
-    background-color: #ffffff;
+    background-color:    #e1d4f0;
     width: 100%;
     /* height: calc(100% - 105px); */
     height: 100%;
@@ -115,7 +115,7 @@ body {
 
 .friend, .active-contact, .new-message-contact {
     height: 70px;
-    background-color: #ffffff;
+    background-color:  #e1d4f0;
     display: flex;
 }
 
@@ -158,16 +158,17 @@ body {
 /* RIGHT */
 .right {
     width: calc(100% - 400px);
-    background-color: white;
+    background-color:  #e1d4f0;
 }
 
 .chat_box {
+
     width: 100%;
     height: 100%;
 }
 
 .chat-head {
-    background-color: #eeeeee;
+    background-color:  #b784f1;
     width: 100%;
     height: 60px;
     display: flex;
@@ -192,7 +193,7 @@ body {
     padding: 3px 6px;
     border-radius: 5px;
     color: white;
-    background-color: #0079e5;
+    background-color:   #894ccf;
     max-width: 70%;
     word-wrap: break-word;
 }
@@ -203,7 +204,7 @@ body {
     padding: 3px 6px;
     border-radius: 5px;
     color: white;
-    background-color: #f14570;
+    background-color: #d84343;
     max-width: 70%;
     word-wrap: break-word;
 }

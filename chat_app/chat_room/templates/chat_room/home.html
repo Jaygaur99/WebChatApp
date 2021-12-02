@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
+{% block stylesheet %}
+    background-color: "#fffdd0";
+{% endblock %}
+
 
 {% block title %}
     DoChat - Home
@@ -53,7 +57,7 @@
                             {% for friend in request.user.friends.all %}
                                 <div class='friend' id="{{ friend.id }}">
                                     <div class='contact-preview'>
-                                        <img src="media/{{ friend.profile_pic }}" alt="UserImg">
+                                        <img src="media/{{ request.user.profile_pic}}" alt="UserIMG">
                                         <div class='contact-text'>
                                             <h1 class='font-name'>{{ friend.get_full_name }}</h1>
                                             <p class='font-preview'>{{ friend.email }}</p>
@@ -73,7 +77,6 @@
                 </div>
             </div>
             {% else %}
-            <p>You are not logged in</p>
             <a href="{% url 'main:login' %}">Log In</a>
             {% endif %}
         </div>
