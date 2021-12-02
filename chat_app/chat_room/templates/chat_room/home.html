@@ -14,10 +14,14 @@
 
     <nav class="navbar navbar-light bg-light">
         <div class="container-fluid">
+            <div class='profile'>
+                <img src="media/{{ request.user.profile_pic}}" alt="UserIMG">
+                <h4>{{ request.user.get_full_name }}</h4>
+            </div>
             <form class="d-flex order-1" autocomplete="off" method="post" action="{% url 'chat_room:searchhandle' %}">
                 {% csrf_token %}
-                <div class='autocomplete' id="autocomplete" style="width:800px;">
-                <input class="form-control me-2 autocomplete-input" type="text" placeholder="Search" aria-label="Search" name='email'>
+                <div class='autocomplete' id="autocomplete" style="width:700px;">
+                    <input class="form-control autocomplete-input" type="text" placeholder="Search" aria-label="Search" name='email'>
                 <ul class="autocomplete-result-list"></ul>
             </div>
                 <button class="btn btn-outline-success" type="submit">Search</button>
@@ -30,29 +34,21 @@
                 <button class="btn btn-outline-success" type="submit">Friends</button>
             </form>
 
-            <form class="d-flex order-2" method="post" action="{% url 'main:sentrequests' %}">
-                {% csrf_token %}
-                <button class="btn btn-outline-success" type="submit">Add Friends</button>
-            </form>
-
             <form class="d-flex order-2" method="post" action="{% url 'main:recievedrequests' %}">
                 {% csrf_token %}
                 <button class="btn btn-outline-success" type="submit">Friend Requests</button>
             </form>
         
-            <div class='green-background'>
+            <div class='background'>
                 <div class='wrapper'>
                     <section class='left'>
-                        <div class='profile'>
-                            <img src="media/{{ request.user.profile_pic}}" alt="UserIMG">
-                            <h3>{{ request.user.get_full_name }}</h3>
-                        </div>
-                        <div class='wrap-search'>
+                        
+                        {% comment %} <div class='wrap-search'>
                             <div class='search'>
                                 <span class='fa fa-search'></span>
                                 <input type="text" class='input-search' placeholder="Enter name">
                             </div>
-                        </div>
+                        </div> {% endcomment %}
                         <div class='friends'>
                             {% for friend in request.user.friends.all %}
                                 <div class='friend' id="{{ friend.id }}">
@@ -69,7 +65,9 @@
                     </section>
                     <section class='right'>
                         <div class='chat_box'>
-                        
+                            <div class='d-flex justify-content-center' style="vertical-align:middle; top:50%;">
+                                <h1>Welcome to DoChat</h1>
+                            </div>
                         </div>
                     </section>
                 </div>
@@ -78,7 +76,6 @@
             <p>You are not logged in</p>
             <a href="{% url 'main:login' %}">Log In</a>
             {% endif %}
-            
         </div>
     </nav>
 
@@ -108,37 +105,6 @@
             }
         })
     </script>
-    <!--
-        ,
-
-
-            renderResult: (result, props) => {
-                console.log(props)
-        
-                let group = ''
-                if (result.index % 3 === 0) {
-                    group = `<li class="group">Group</li>`
-                }
-                return `
-      ${group}
-      <li ${props}>
-        <div class="wiki-title">
-          ${result}
-        </div>
-        
-      </li>
-    `
-            },
-
-            getResultValue: result => result,
-            onSubmit: result => {
-                window.open(`/places/?=${(result)}`)
-            }
-        })
-    -->
-
-
-
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <script type="text/javascript">
         // Get csrf from cookie
@@ -158,7 +124,6 @@
             return cookieValue;
         }
             
-
         $('.friend').click(function(e) {
             var data = { id: parseInt(e.target.id) };
             var options = {
@@ -169,18 +134,29 @@
                 },
                 body: JSON.stringify(data)
             };
-            console.log(options);
+            // console.log(options);
+            $('.chat_box').empty();
             var html_data = fetch("{% url 'chat_room:chat_person' %}", options)
                                 .then(function (response) {
                                     // The API call was successful!
                                     return response.text();
                                 }).then(function (html) {
                                     // This is the HTML from our response as a text string
-                                    console.log(html);
+                                    // console.log(html);
                                     $('.chat_box').append(html);
                                 }); 
             /* console.log(typeof html_data);
-            console.log(html_data); */
+            console.log(html_data); */    
+            // $('.chat_box').empty();
+            // var html_data = fetch("{% url 'chat_room:upload' %}", options)
+            //                     .then(function (response) {
+            //                         // The API call was successful!
+            //                         return response.text();
+            //                     }).then(function (html) {
+            //                         // This is the HTML from our response as a text string
+            //                         // console.log(html);
+            //                         $('.chat_box').append(html);
+            //                     });
         });
     </script>
 {% endblock %}

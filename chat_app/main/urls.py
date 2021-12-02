@@ -21,6 +21,7 @@ urlpatterns = [
     path('send_friend_request/<int:userID>/', sent_friend_request, name='send_friend_request'),
     path('accept_friend_request/<int:requestID>/', accept_friend_request, name='accept_friend_request'),
     path('friend_list/', friend_list, name='friend_list'),
+    path('sentrequests/',sentrequests,name='sentrequests'),
     path('recievedrequests/', recievedrequests, name='recievedrequests'),
     #path('search/',autocompletion,name='autocompletion')
 ]

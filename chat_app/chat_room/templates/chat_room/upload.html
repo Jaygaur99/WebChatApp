@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    upload
+{% endblock title %}
+
+{% block body %}
+
+<div  id="sendfile" role="dialog" class="rounded border border-info">
+  <div class="modal-dialog">
+  
+  <!-- Modal content-->
+  <div class="modal-content">
+
+    <div class="modal-header">
+      <h4 class="modal-title">Upload</h4>
+    </div>
+    <div class="modal-body">
+      <form method="post" action="{% url 'chat_room:upload' %}" enctype="multipart/form-data">
+          {% csrf_token %}
+          <label>Select file....</label>
+          <input type="file" class="form-control" id="doc" name="doc" required>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+      </form>
+    </div>
+  </div>
+
+  </div>
+</div>
+
+
+<!-- <div class="modal" id="sendfile" role="dialog">
+  <div class="modal-dialog"> -->
+  
+  <!-- Modal content-->
+    <!-- <div class="modal-content">
+      <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+      <p>Some text in the modal.</p>
+      </div>
+      <div class="modal-footer">
+      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+  </div>
+  
+  </div>
+</div> -->
+
+
+{% endblock body %} 
+

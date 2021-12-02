@@ -1,50 +1,77 @@
-{% comment %} <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-     {% endcomment %}
-    <style type="text/css">
-        #lefttext{
-            position: absolute;
-            left: 0px;
-            padding: 3px;
-            padding-left: 6px;
-            padding-right: 6px;
-            border-radius: 5px;
-            color: white;
-            background-color: #0079E5;
-        }
-    </style>
-{% comment %} 
-</head>
-<body> {% endcomment %}
-    <div style="position:relative" class='d-flex justify-content-center align-items-center'>
-        <h1 style="top: 0; position: absolute;">Chat with {{ user.get_full_name }}</h1>
-        
-        <div id="messagecontainer" style="margin:0 20%; overflow-y: auto;width= 40vw; height:80vh; position: relative;" class='container'>
-            {% for message in messages %}
-                <div id='lefttext'>{{ message }}</div>
-                <br><br>
-            {% endfor %}
-        </div>
-        
-        <div style="position: absolute; bottom: 10%; width: 100vw;" class='d-flex justify-content-center'>
-            <input id="messageinputfield" class='form-control' style='width:40vw; text-align: center;' type="text" name=''>
-            <input id="sendbutton" class='btn btn-primary' type='submit' value="Send">
+<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"> -->
+
+<div id='right-wrapper'>
+    <div class='chat-head'>
+        <img src="media/{{ user.profile_pic }}" alt="Profile_pic">
+        <div class='chat-name'> 
+            <h1 class='font-name'>{{ user.get_full_name|title }}</h1>
         </div>
     </div>
-</body>
+
+    <div style="position:relative; width:100%; height:100%;" class='d-flex justify-content-center align-items-center'>
+    {% comment %} <h1 style="top: 0; position: absolute;">Chat with {{ user.get_full_name }}</h1> {% endcomment %}
+
+        <div id="messagecontainer" style="display:block; overflow-y: auto; height:70vh; width:100vw; position: relative;" class='container'>
+            {% for message in messages %}
+                <br>
+                {% if message.from_user == request.user %}
+                <div class='righttext'>
+                    <h5>{{ message.message }}</h5>
+                    <div class='time_label'></div>
+                </div>
+                {% elif message.to_user == request.user %}
+                <div class='lefttext'>
+                    <h5>{{ message.message }}</h5>
+                    <div class='time_label'></div>
+                </div>
+                {% endif %}
+                <br>
+            {% endfor %}
+            {% if uploaded_file %}
+            <div class="card rounded border border-info righttext" style="width: 22rem; height: auto ; background-color: rgb(224, 251, 255);">
+                <div class="card-body">
+                    <p>
+                    <h6>{{uploaded_file.file.name}}</h8>
+                    <button type="button" class="btn btn-primary">
+                    <a href="{{uploaded_file.file.url}}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-download" viewBox="0 0 16 16">
+                            <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                            <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                          </svg>
+                    </a>
+                    </button>
+                    </p>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    <div style="position: absolute; width: 70%;" class='d-flex justify-content-center'>
+        <a href="{% url 'chat_room:fileshare' %}">
+        <button type="button" class="btn btn-outline-secondary" id="myBtn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" 
+            class="bi bi-file-earmark-arrow-up-fill" viewBox="0 0 16 16">
+                <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM6.354 9.854a.5.5 0 0 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 8.707V12.5a.5.5 0 0 1-1 0V8.707L6.354 9.854z"/>
+            </svg>
+        </button>
+        </a>
+
+        <input id="messageinputfield" class='form-control' style='text-align: center;' type="text" name=''>
+        <input id="sendbutton" class='btn btn-primary' type='submit' value="Send">
+    </div>
+
+</div>
+
+{% comment %} </div> {% endcomment %}
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script type="text/javascript">
+   
     const chatSocket = new WebSocket('ws://'+ window.location.host
-                                     +'/ws/users/{{ usernames }}/chat');
+                                     +'/ws/users/{{ usernames }}/{{ request.user.id }}/{{ user.id }}');
+    console.log("{{ usernames }}");
     document.querySelector('#sendbutton').onclick = function(e){
-        const message = document.querySelector('#messageinputfield').value;
-        chatSocket.send(JSON.stringify({'message': '{{ request.user.fname }} : ' + message}));
+        const message = "{{ request.user.id }}: " + document.querySelector('#messageinputfield').value;
+        chatSocket.send(JSON.stringify({'message': message}));
         document.querySelector('#messageinputfield').value = "";
     }
     
@@ -60,11 +87,16 @@
     
     chatSocket.onmessage = function(e){
         const data = JSON.parse(e.data);
-        document.querySelector('#messagecontainer').innerHTML += '<div id ="lefttext">'+ data.message + '</div> <br><br>';
+        if (data.user == parseInt("{{ request.user.id }}")) {
+            document.querySelector('#messagecontainer').innerHTML += '<div class="righttext">'+ data.message + '</div> <br><br>';
+        } else {
+            document.querySelector('#messagecontainer').innerHTML += '<div class="lefttext">'+ data.message + '</div> <br><br>';
+        }
         scrollToBottom();
     }
 
+    $('document').ready(function (){
+        scrollToBottom();
+    });  
     
 </script>
-{% comment %} </html> {% endcomment %}
-
