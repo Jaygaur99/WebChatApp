@@ -18,8 +18,6 @@ urlpatterns = [
     path('friend_list/', friend_list, name='friend_list'),
     path('sentrequests/',sentrequests,name='sentrequests'),
     path('recievedrequests/', recievedrequests, name='recievedrequests'),
-
-    
     
     path('searchhandle/',searchhandle,name='searchhandle'),
     path('search/',autocompletion,name='autocompletion')

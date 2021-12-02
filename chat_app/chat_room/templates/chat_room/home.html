@@ -15,9 +15,10 @@
 {% endblock css_file %}
 
 {% block body %} 
-
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <nav class="navbar navbar-light bg-light">
         <div class="container-fluid">
+            
             <div class='profile'>
                 <img src="media/{{ request.user.profile_pic}}" alt="UserIMG">
                 <h4>{{ request.user.get_full_name }}</h4>
@@ -25,22 +26,22 @@
             <form class="d-flex order-1" autocomplete="off" method="post" action="{% url 'main:searchhandle' %}">
                 {% csrf_token %}
                 <div class='autocomplete' id="autocomplete" style="width:800px;">
-                    <input class="form-control autocomplete-input" type="text" placeholder="Search" aria-label="Search" name='email'>
+                    <input style="padding-left:50px;" class="form-control autocomplete-input" type="text" placeholder="Search" aria-label="Search" name='email'>
                 <ul class="autocomplete-result-list"></ul>
             </div>
-                <button class="btn btn-outline-success" type="submit">Search</button>
+                <button class="btn btn-outline-success color-button" type="submit">Search</button>
             </form>
 
-            {% if user.is_authenticated %}
+           
 
             <form class="d-flex order-2" method="post" action="{% url 'main:friend_list' %}">
                 {% csrf_token %}
-                <button class="btn btn-outline-success" type="submit">Friends</button>
+                <button class="btn btn-outline-success color-button" type="submit">Friends</button>
             </form>
 
             <form class="d-flex order-2" method="post" action="{% url 'main:recievedrequests' %}">
                 {% csrf_token %}
-                <button class="btn btn-outline-success" type="submit">Friend Requests</button>
+                <button class="btn btn-outline-success color-button" type="submit">Friend Requests</button>
             </form>
         
             <div class='background'>
@@ -69,30 +70,31 @@
                     </section>
                     <section class='right'>
                         <div class='chat_box'>
-                            <div class='d-flex justify-content-center' style="vertical-align:middle; top:50%;">
-                                <h1>Welcome to DoChat</h1>
+                            <div class='d-flex justify-content-center' id='img-text-wrapper'>
+                                <div id="initial-wrapper">
+                                    <img src="media/background.png"  alt="">
+                                </div>
+                                <h3>DoChat</h3>
+                                {% comment %} <h1>Welcome to DoChat</h1> {% endcomment %}
                             </div>
                         </div>
                     </section>
                 </div>
             </div>
-            {% else %}
-            <a href="{% url 'main:login' %}">Log In</a>
-            {% endif %}
         </div>
     </nav>
-
-    {% comment %} <br>
-    {% if user.is_authenticated %}
-    {{ email}} is available
-    {% else %}
-    <p>{{ email }} is not available</p>
-    <a href="{% url 'main:login' %}">Log In</a>
+    {% comment %} {% else %} {% endcomment %}
+    {% comment %} <div id='log-in-wrapper'>
+        <a id='log-in' href="{% url 'main:login' %}">Log In</a>
+    </div>
     {% endif %} {% endcomment %}
 
     <script src="https://unpkg.com/@trevoreyre/autocomplete-js"></script>
     
     <script>
+        {% if not user.is_authenticated %}
+        window.location.replace("{% url 'main:login' %}");
+        {% endif %}
         new Autocomplete("#autocomplete",{
             search :input =>{
                 console.log(input)
@@ -149,8 +151,6 @@
                                     // console.log(html);
                                     $('.chat_box').append(html);
                                 }); 
-            /* console.log(typeof html_data);
-            console.log(html_data); */
         });
     </script>
 {% endblock %}
