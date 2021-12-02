@@ -5,6 +5,10 @@
 {% endblock title %}
 
 {% block body %}
+{% block stylesheet %}
+background-color :  #e1d4f0;
+{% endblock stylesheet %}
+    
     <div class='search-results'>
         <h1>Search Results</h1>
         {% for user in user_list %}
