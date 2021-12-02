@@ -1,21 +1,25 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block title %}
     Friend Requests
 {% endblock %}
 
 {% block css_file %}
-
+<link rel="stylesheet" href="{% static 'main/friends_requests.css' %}">
 {% endblock %}
 
 {% block body %}
     <div class='container justify-content-center'>
-        <h2>Received friend request</h2>
+        <h2>Received friend requests</h2>
         <br>
         {% for friend_request in all_friend_requests %}
             <p>
                 {{ friend_request.from_user }}
-                <a href="{% url 'main:accept_friend_request' requestID=friend_request.id %}">Accept Friend request</a>
+                <button>
+                <a href="{% url 'main:accept_friend_request' requestID=friend_request.id %}">Accept Friend Request</a>
+                </button>
             </p>
         {% empty %}
             <h5>No friend request received.</h5>

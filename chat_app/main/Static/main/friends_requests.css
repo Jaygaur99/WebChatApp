@@ -1,0 +1,22 @@
+* {
+    font-family: serif;
+}
+
+h2 {
+    color: #34105c;
+}
+
+body {
+    background-color: #e1d4f0;
+    color: #34105c;
+    margin-top: 15px;
+}
+
+h5 {
+    margin-left: 25px;
+    color: #34105c;
+}
+
+button {
+    background-color: rgb(243, 240, 245);
+}
