@@ -12,5 +12,7 @@ urlpatterns = [
     path('searchhandle/',searchhandle,name='searchhandle'),
     path('search/',autocompletion,name='autocompletion'),
     path('fileshare/',fileshare,name='fileshare'),
-    path('upload/',upload,name='upload')
+    path('upload/',upload,name='upload'),
+    path('temp/',temp,name="temp")
+
 ]

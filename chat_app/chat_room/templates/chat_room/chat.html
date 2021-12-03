@@ -16,18 +16,57 @@
                 <br>
                 {% if message.from_user == request.user %}
                 <div class='righttext'>
-                    <h5>{{ message.message }}</h5>
-                    <div class='time_label'></div>
+                    {% if message.type != 'text' %}
+                     <!-- <h6>"media/file/{{ file }}"</h6> -->
+                     <!-- <h6>{{message.message }}</h6> -->
+                     
+                        <div class="card-body" >
+                            
+                            <h6>{{message.message}}</h8>
+                            <button type="button" class="btn btn-primary">
+                            <a href="{{message.message}}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-download" viewBox="0 0 16 16">
+                                    <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                                    <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                                  </svg>
+                            </a>
+                            </button>
+                            
+                        </div>
+                    {% else %}
+                        <h5>{{ message.message }}</h5>
+                        <div class='time_label'></div>
+                    {% endif %}
                 </div>
                 {% elif message.to_user == request.user %}
                 <div class='lefttext'>
-                    <h5>{{ message.message }}</h5>
-                    <div class='time_label'></div>
-                </div>
+                    {% if message.type != 'text' %}
+                   <!-- <h6>"media/file/{{ file }}"</h6> -->
+                   <!-- <h6>{{message.message }}</h6> -->
+                   
+                    <div class="card-body" style="height : 10">
+                        
+                        <h6>{{message.message }}</h8>
+                        <button type="button" class="btn btn-primary">
+                        <a href="{{message.message}}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-download" viewBox="0 0 16 16">
+                                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                                <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                              </svg>
+                        </a>
+                        </button>
+                        
+                    
+                    </div>
+                    {% else %}
+                        <h5>{{ message.message }}</h5>
+                        <div class='time_label'></div>
+                    {% endif %}
+                    </div>
                 {% endif %}
                 <br>
             {% endfor %}
-            {% if uploaded_file %}
+            <!-- {% if uploaded_file %}
             <div class="card rounded border border-info righttext" style="width: 22rem; height: auto ; background-color: rgb(224, 251, 255);">
                 <div class="card-body">
                     <p>
@@ -43,26 +82,48 @@
                     </p>
                 </div>
             </div>
-            {% endif %}
+            {% endif %}  -->
         </div>
     </div>
     <div style="position: absolute; width: 70%;" class='d-flex justify-content-center'>
-        <a href="{% url 'chat_room:fileshare' %}">
+        <!-- <a href="{% url 'chat_room:fileshare' %}">
         <button type="button" class="btn btn-outline-secondary" id="myBtn">
             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" 
             class="bi bi-file-earmark-arrow-up-fill" viewBox="0 0 16 16">
                 <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM6.354 9.854a.5.5 0 0 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 8.707V12.5a.5.5 0 0 1-1 0V8.707L6.354 9.854z"/>
             </svg>
         </button>
-        </a>
+        </a> 
+        
+    
+    <form method="post" action="{% url 'chat_room:upload' %}" enctype="multipart/form-data">
+          {% csrf_token %}
+          <label>Select file....</label>
+          <input type="file" class="form-control" id="doc" name="doc" required>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+      </form>
 
+    -->
+        <form  enctype="multipart/form-data">
+            <!-- {% csrf_token %} -->
+            <!-- <input type="file" class="form-control" id="doc" name="doc" required> -->
+            
+            <button type="file" class="btn btn-outline-secondary" id="uploadbutton">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" 
+                class="bi bi-file-earmark-arrow-up-fill" viewBox="0 0 16 16">
+                    <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM6.354 9.854a.5.5 0 0 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 8.707V12.5a.5.5 0 0 1-1 0V8.707L6.354 9.854z"/>
+                </svg>
+            </button>
+            
+        </form>
         <input id="messageinputfield" class='form-control' style='text-align: center;' type="text" name=''>
         <input id="sendbutton" class='btn btn-primary' type='submit' value="Send">
     </div>
 
 </div>
 
-{% comment %} </div> {% endcomment %}
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script type="text/javascript">
    
@@ -70,6 +131,13 @@
                                      +'/ws/users/{{ usernames }}/{{ request.user.id }}/{{ user.id }}');
     console.log("{{ usernames }}");
     document.querySelector('#sendbutton').onclick = function(e){
+        const message = "{{ request.user.id }}: " + document.querySelector('#messageinputfield').value;
+        chatSocket.send(JSON.stringify({'message': message}));
+        document.querySelector('#messageinputfield').value = "";
+    }
+
+
+    document.querySelector('#uploadbutton').onclick = function(e){
         const message = "{{ request.user.id }}: " + document.querySelector('#messageinputfield').value;
         chatSocket.send(JSON.stringify({'message': message}));
         document.querySelector('#messageinputfield').value = "";

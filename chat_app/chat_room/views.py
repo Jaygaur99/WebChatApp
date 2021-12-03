@@ -6,11 +6,11 @@ from django.template.loader import render_to_string
 
 import json
 from django.contrib.auth import get_user_model
-
+from  django.urls import reverse
 from django.http import JsonResponse, request
 from django.shortcuts import render, HttpResponse, redirect
 
-from .models import Message, Files
+from .models import Message
 # Create your views here.
 
 def home(request):
@@ -40,19 +40,34 @@ def chat_person(request):
     name = json.loads(request.body).get('id')
     user = User.objects.get(id=name)
     usernames = two_username_to_one_username(email, user.email)
+
+    m = Message.objects.all()
+    lst = []
+    for message in m:
+        if message.content != "":
+            lst.append(("text", message.content.replace(":","").replace("1","").replace("2","").replace("3","").replace("4","").replace("5","").replace("6","").replace("7","").replace("8","").replace("9","")))
+            continue
+        lst.append(("file", message.file.url))
+        file = lst
+    # print("/n/nFILE/n/n",file)
     messages = []
+    i = -1
     for obj in Message.objects.filter(chat_identifier=usernames):
+        i += 1
         messages.append({ 
-            'message': obj.content.split(":")[1],
+            'message': lst[i][1],
             'from_user': obj.from_user,
-            'to_user': obj.to_user
+            'to_user': obj.to_user,
+            'type' : lst[i][0]
         })
-    # print(messages)
+
+    print(messages)
     return render(request, 'chat_room/chat.html', {
         'user':user,
         'name':name,
         'usernames':usernames,
-        'messages': messages
+        'messages': messages,
+        'file' : file,
         })
 
 def index(request):
@@ -84,21 +99,47 @@ def fileshare(request):
     return render(request, 'chat_room/upload.html')
 
 def upload(request):
-    if request.method == 'POST' and 'doc' in request.FILES:
-        new_file = Files(
-            file = request.FILES['doc']
-        )
-        new_file.save()
-        files = []
-        files.append(new_file)
-        # return render(request,'chat_room/chat.html',{'uploaded_file': new_file})
-        render(request, 'chat_room/chat.html', {
-         'user':user,
-         'name':name,
-         'usernames': usernames,
-         'messages': messages,
-         'uploaded_file': new_file
-         })
-        return render(request,'chat_room/home.html', {'allusers' : all_users })
-    else:
-        return render(request,'chat_room/upload.html')
+     if request.method == 'POST' and 'doc' in request.FILES:
+         new_file = Message(
+             file = request.FILES['doc']
+         )
+         new_file.save(force_insert=True)
+         files = []
+         files.append(new_file)
+         return render(request,'chat_room/chat2.html',{'uploaded_file': new_file})
+    #      render(request, 'chat_room/chat.html', {
+    #       'user':user,
+    #       'name':name,
+    #       'usernames': usernames,
+    #       'messages': messages,
+    #       'uploaded_file': new_file
+    #       })
+    #      return render(request,'chat_room/home.html', {'allusers' : all_users })
+    #  else:
+    #      return render(request,'chat_room/upload.html')
+
+# lst = []
+#     ...: for message in m:
+#     ...:     if message.content != "":
+#     ...:         lst.append({"type" : "text","msg":message.content})
+#     ...:         continue
+#     ...:     lst.append({"type":"file","path":message.file})
+
+def temp(request):
+    m = Message.objects.all()
+    lst = []
+    for message in m:
+        if message.content != "":
+            lst.append(("text", message.content))
+            continue
+        lst.append(("file", message.file.path))
+    file = lst[-3]
+    messages = []
+    for obj in Message.objects.filter(chat_identifier=usernames):
+        messages.append({ 
+            'message': obj.content.split(":")[1],
+            'from_user': obj.from_user,
+            'to_user': obj.to_user
+        })
+    print(messages)
+    return render(request,'chat_room/temp.html', {'file': file})
