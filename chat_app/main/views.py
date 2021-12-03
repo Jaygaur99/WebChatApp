@@ -15,6 +15,8 @@ from .helpers import *
 
 from django.http import JsonResponse
 
+
+
 # Create your views here.
 def login_page(request):
     return render(request,'main/login.html')
@@ -35,18 +37,6 @@ def loginauth(request):
 
 def home(request):
     return render(request,'chat_room/home.html')
-
-"""
-def autocompletion(request):
-    user = get_user_model()
-    if 'email' in request.GET:
-        qs = user.objects.filter(email__icontains=request.GET.get('email'))
-        objects = list()
-        for obj in qs :
-            objects.append(obj.email)
-        return JsonResponse(objects,safe=False)
-    return render(request,'chat_room/home.html')
-"""
 
 def autocompletion(request):
     User = get_user_model()
@@ -158,9 +148,9 @@ def sent_friend_request(request, userID):
     to_user = User.objects.get(id=userID)
     friend_request, created = UserRelationShip.objects.get_or_create(from_user=from_user, to_user=to_user)
     if created:
-        return HttpResponse('Friend request sent')
+        return render(request, 'main/all_change_redirect.html', {'change': 'Friend request sent'})
     else:
-        return HttpResponse('Friend request was already sent')
+        return render(request, 'main/all_change_redirect.html', {'change': 'Friend request was already sent'})
 
 @login_required
 def accept_friend_request(request, requestID):
@@ -170,9 +160,9 @@ def accept_friend_request(request, requestID):
         friend_request.to_user.friends.add(friend_request.from_user)
         friend_request.from_user.friends.add(friend_request.to_user)
         friend_request.delete()
-        return HttpResponse('Friend Request accepted')
+        return render(request, 'main/all_change_redirect.html', {'change': 'Friend Request accepted'})
     else:
-        return HttpResponse('Friend request not accepted')
+        return render(request, 'main/all_change_redirect.html', {'change': 'Friend Request not accepted'})
 
 @login_required
 def friend_list(request):

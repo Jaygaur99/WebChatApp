@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}
-Password changed
+{{ change }}
 {% endblock %}
 
 {% block css_file %}
@@ -11,10 +11,10 @@ Password changed
 
 {% block body %}
 <div id='wrapper'>
-    <h2>Password Changed </h2>
+    <h2>{{ change }} </h2>
     <div class="friend-wrapper">
         <p class='left'>Redirecting in <span id='timer'></span> seconds</p>
-        <p><a class='btn btn-danger' href="{% url 'main:login' %}">Click here</a> to go to login page</p>
+        <p><a class='btn btn-danger' href="{% url 'chat_room:home' %}">Click here</a> to go to login page</p>
     </div>
 </div>
 <script>
@@ -23,7 +23,7 @@ Password changed
         time--;
         if (time == 0) {
             clearInterval(interval);
-            window.location.href = "{% url 'main:login' %}";
+            window.location.href = "{% url 'chat_room:home' %}";
         }
         document.getElementById('timer').innerHTML = time;
     }, 1000);    

@@ -152,7 +152,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = "51110102961@piemr.edu.in"
-EMAIL_HOST_PASSWORD = "Bhavesh@8817"
+EMAIL_HOST_PASSWORD = "Bhavesh@8817789456"
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
